@@ -15,12 +15,10 @@ class TetrIo:
         return self.session.get(f"{self.api}/general/activity").json()
 
     def get_user_info(self, username: str) -> dict:
-        return self.session.get(
-            f"{self.api}/users/{username}").json()
+        return self.session.get(f"{self.api}/users/{username}").json()
 
     def get_user_records(self, username: str) -> dict:
-        return self.session.get(
-            f"{self.api}/users/{username}/records").json()
+        return self.session.get( f"{self.api}/users/{username}/records").json()
 
     def get_league_leaderboard(
             self,
@@ -28,12 +26,11 @@ class TetrIo:
             before: int = None,
             limit: int = 50,
             country: str = "US") -> dict:
-        url = f"{self.api}/users/lists/league?limit={limit}&country={country}"
-        if after:
-            url += f"&after={after}"
-        if before:
-            url += f"&before={before}"
-        return self.session.get(url).json()
+        params = {
+            key: value for key, value in {"after": after, "before": before}.items() if value is not None}
+        return self.session.get(
+            f"{self.api}/users/lists/league?limit={limit}&country={country}",
+            params=params).json()
 
     def get_league_leaderboard_full(
             self,
@@ -47,20 +44,17 @@ class TetrIo:
             before: int = None,
             limit: int = 50,
             country: str = "US") -> dict:
-        url = f"{self.api}/users/lists/xp?limit={limit}&country={country}"
-        if after:
-            url += f"&after={after}"
-        if before:
-            url += f"&before={before}"
-        return self.session.get(url).json()
+        params = {
+            key: value for key, value in {"after": after, "before": before}.items() if value is not None}
+        return self.session.get(
+            f"{self.api}/users/lists/xp?limit={limit}&country={country}",
+            params=params).json()
 
     def get_stream_info(self, stream: str) -> dict:
-        return self.session.get(
-            f"{self.api}/steams/{stream}").json()
+        return self.session.get(f"{self.api}/steams/{stream}").json()
 
     def get_latest_news(self, limit: int = 25) -> dict:
-        return self.session.get(
-            f"{self.api}/news?limit={limit}").json()
+        return self.session.get(f"{self.api}/news?limit={limit}").json()
 
     def get_stream_latest_news(self, stream: str, limit: int = 25) -> dict:
         return self.session.get(
